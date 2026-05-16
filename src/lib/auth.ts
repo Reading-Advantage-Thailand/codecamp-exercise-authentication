@@ -8,13 +8,15 @@ export type Permission =
   | "post:write"
   | "post:delete";
 
-// TODO: Define ROLE_PERMISSIONS mapping
-// admin: all permissions
-// editor: user:read, post:read, post:write
-// viewer: user:read, post:read
+const ROLE_PERMISSIONS: Record<string, Permission[]> = {
+  admin: ["user:read", "user:write", "user:delete", "post:read", "post:write", "post:delete"],
+  editor: ["user:read", "post:read", "post:write"],
+  viewer: ["user:read", "post:read"],
+};
 
 export function assertCan(session: Session, permission: Permission): void {
-  // TODO: Check if the session's role has the required permission
-  // Throw an Error with message "Forbidden: missing permission <permission>" if not
-  throw new Error("Not implemented");
+  const allowed = ROLE_PERMISSIONS[session.role] || [];
+  if (!allowed.includes(permission)) {
+    throw new Error(`Forbidden: missing permission ${permission}`);
+  }
 }

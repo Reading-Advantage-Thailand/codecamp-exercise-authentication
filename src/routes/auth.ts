@@ -4,24 +4,31 @@ import { createSession, getSession, deleteSession } from "../lib/session.js";
 import { assertCan } from "../lib/auth.js";
 
 export async function login(input: { email: string; password: string }) {
-  // TODO: Find user by email, verify password, create session, return { token, user }
-  // Throw if user not found or password incorrect
-  throw new Error("Not implemented");
+  const user = getUserByEmail(input.email);
+  if (!user) throw new Error("Invalid credentials");
+  const valid = await verifyPassword(input.password, user.passwordHash);
+  if (!valid) throw new Error("Invalid credentials");
+  const token = createSession(user.id, user.role);
+  return { token, user: { id: user.id, name: user.name, email: user.email, role: user.role } };
 }
 
 export function logout(input: { token: string }) {
-  // TODO: Delete the session, return { success: true/false }
-  throw new Error("Not implemented");
+  const success = deleteSession(input.token);
+  return { success };
 }
 
 export function getProfile(input: { token: string }) {
-  // TODO: Get session from token, get user by session.userId, return user (without passwordHash)
-  // Throw if session invalid
-  throw new Error("Not implemented");
+  const session = getSession(input.token);
+  if (!session) throw new Error("Invalid session");
+  const user = getUserById(session.userId);
+  if (!user) throw new Error("User not found");
+  const { passwordHash, ...profile } = user;
+  return profile;
 }
 
 export function deleteUser(input: { token: string; userId: string }) {
-  // TODO: Get session, assertCan(session, "user:delete"), delete the user
-  // Throw if session invalid or unauthorized
-  throw new Error("Not implemented");
+  const session = getSession(input.token);
+  if (!session) throw new Error("Invalid session");
+  assertCan(session, "user:delete");
+  removeUser(input.userId);
 }

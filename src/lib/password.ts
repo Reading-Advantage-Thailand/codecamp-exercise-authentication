@@ -1,11 +1,9 @@
-// TODO: Implement password hashing using bcrypt
+import bcrypt from "bcrypt";
 
 export async function hashPassword(plain: string): Promise<string> {
-  // TODO: Hash the plaintext password with bcrypt (salt rounds = 10)
-  throw new Error("Not implemented");
+  return bcrypt.hash(plain, 10);
 }
 
 export async function verifyPassword(plain: string, hashed: string): Promise<boolean> {
-  // TODO: Compare the plaintext password against the bcrypt hash
-  throw new Error("Not implemented");
+  return bcrypt.compare(plain, hashed);
 }

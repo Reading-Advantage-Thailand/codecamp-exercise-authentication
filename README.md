@@ -13,8 +13,8 @@
 ### Setup
 
 1. **Fork** this repository and **clone** your fork
-2. Run `npm install` to install dependencies
-3. Run `npm test` to see the failing tests
+2. Run `pnpm install` to install dependencies
+3. Run `pnpm test` to see the failing tests
 
 ### Step 1: Implement Password Hashing (`src/lib/password.ts`)
 
@@ -44,7 +44,7 @@
 
 ### Step 5: Run Tests
 
-- Run `npm test` to verify your implementations
+- Run `pnpm test` to verify your implementations
 
 ## Acceptance Criteria
 
@@ -53,7 +53,7 @@
 - [ ] `assertCan` throws for unauthorized actions
 - [ ] Admin can delete users, editor and viewer cannot
 - [ ] Login returns a session token, logout invalidates it
-- [ ] `npm test` passes with all tests green
+- [ ] `pnpm test` passes with all tests green
 
 ## File Structure
 
@@ -81,7 +81,7 @@ codecamp-exercise-authentication/
 ## Commands
 
 ```bash
-npm install     # Install dependencies
+pnpm install     # Install dependencies
 npm test        # Run all tests
 ```
 
